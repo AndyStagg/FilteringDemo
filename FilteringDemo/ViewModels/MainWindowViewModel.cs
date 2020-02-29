@@ -10,6 +10,7 @@ namespace FilteringDemo.ViewModels
     public class MainWindowViewModel : ViewModelBase
     {
         public ObservableCollection<ParentItem> ParentItems { get; set; }
+        public ParentItem SelectedParentItem { get; set; }
 
         public MainWindowViewModel()
         {
