@@ -3,6 +3,7 @@ using FilteringDemo.MVVM;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace FilteringDemo.ViewModels
 {
@@ -15,6 +16,14 @@ namespace FilteringDemo.ViewModels
             ParentItems = new ObservableCollection<ParentItem>();
 
             LoadDummyParentItems();
+        }
+
+        private ICommand _filterChildren;
+        public ICommand FilterChildren => _filterChildren ?? (_filterChildren = new RelayCommand(p => ApplyChildFilter()));
+
+        private void ApplyChildFilter()
+        {
+            //TODO: Filter?
         }
 
         private void LoadDummyParentItems()
