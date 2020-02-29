@@ -21,7 +21,7 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <ListView Grid.Row="1" Margin="2"/>
+            <ListView Grid.Row="1" Margin="2" />
             
         </Grid>
     </Grid>
