@@ -18,10 +18,16 @@ namespace FilteringDemo.ViewModels
             LoadDummyParentItems();
         }
 
-        private ICommand _filterChildren;
-        public ICommand FilterChildren => _filterChildren ?? (_filterChildren = new RelayCommand(p => ApplyChildFilter()));
+        private ICommand _filterChildrenCommand;
+        public ICommand FilterChildrenCommand => _filterChildrenCommand ?? (_filterChildrenCommand = new RelayCommand(param => FilterChildren((string)param), param => CanFilterChildren((string)param)));
 
-        private void ApplyChildFilter()
+        private bool CanFilterChildren(string filter)
+        {
+            //TODO: Check for selected item in real life.
+            return filter.Length > 0;
+        }
+
+        private void FilterChildren(string filter)
         {
             //TODO: Filter?
         }

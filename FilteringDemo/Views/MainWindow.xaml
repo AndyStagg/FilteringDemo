@@ -49,8 +49,8 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBox x:Name="ChildFilterText" Grid.Column="0" Margin="2" />
-                <Button x:Name="ChildFilterButton" Grid.Column="1" Content="Filter" Width="100" Margin="2" />
+                <TextBox x:Name="ChildFilterInput" Grid.Column="0" Margin="2" />
+                <Button Grid.Column="1" Content="Filter" Width="100" Margin="2" Command="{Binding FilterChildrenCommand}" CommandParameter="{Binding ElementName=ChildFilterInput, Path=Text}"/>
             </Grid>
 
         </Grid>
