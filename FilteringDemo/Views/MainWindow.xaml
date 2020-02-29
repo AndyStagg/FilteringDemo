@@ -12,7 +12,13 @@
             <ColumnDefinition Width=".75*"/>
         </Grid.ColumnDefinitions>
 
-        <ListView x:Name="ItemList" Grid.Column="0" Margin="2"/>
+        <ListView x:Name="ItemList" Grid.Column="0" Margin="2" ItemsSource="{Binding ParentItems}" SelectionMode="Single">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
 
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
@@ -21,8 +27,32 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <ListView Grid.Row="1" Margin="2" />
-            
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Text="{Binding ElementName=ItemList, Path=SelectedItem.Name}" Margin="2"/>
+                <TextBlock Grid.Column="1" Text="{Binding ElementName=ItemList, Path=SelectedItem.CreatedOn}" Margin="2"/>
+                <TextBlock Grid.Column="2" Text="{Binding ElementName=ItemList, Path=SelectedItem.IsActive}" Margin="2"/>
+                <TextBlock Grid.Column="3" Text="{Binding ElementName=ItemList, Path=SelectedItem.Status}" Margin="2"/>
+            </Grid>
+
+            <ListView Grid.Row="1" Margin="2" ItemsSource="{Binding ElementName=ItemList, Path=SelectedItem.ChildItems}" />
+
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBox x:Name="ChildFilterText" Grid.Column="0" Margin="2" />
+                <Button x:Name="ChildFilterButton" Grid.Column="1" Content="Filter" Width="100" Margin="2" />
+            </Grid>
+
         </Grid>
     </Grid>
 </Window>
