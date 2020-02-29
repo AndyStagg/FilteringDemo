@@ -22,14 +22,7 @@ namespace FilteringDemo.MVVM
 
         public bool CanExecute(object parameter)
         {
-            if (_canExecuteMethod == null)
-            {
-                return true;
-            }
-            else
-            {
-                return _canExecuteMethod(parameter);
-            }
+            return _canExecuteMethod == null ? true : _canExecuteMethod(parameter);
         }
 
         public void Execute(object parameter)
