@@ -12,7 +12,7 @@
             <ColumnDefinition Width=".75*"/>
         </Grid.ColumnDefinitions>
 
-        <ListView x:Name="ItemList" Grid.Column="0" Margin="2" ItemsSource="{Binding ParentItems}" SelectionMode="Single">
+        <ListView x:Name="ItemList" Grid.Column="0" Margin="2" ItemsSource="{Binding ParentItems}" SelectedItem="{Binding SelectedParentItem, Mode=OneWayToSource}" SelectionMode="Single">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Name}"/>
@@ -41,16 +41,22 @@
                 <TextBlock Grid.Column="3" Text="{Binding ElementName=ItemList, Path=SelectedItem.Status}" Margin="2"/>
             </Grid>
 
-            <ListView Grid.Row="1" Margin="2" ItemsSource="{Binding ElementName=ItemList, Path=SelectedItem.ChildItems}" />
-
+            <ListView Grid.Row="1" Margin="2" ItemsSource="{Binding SelectedParentItem.ChildItems}" />
+            
             <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBox x:Name="ChildFilterInput" Grid.Column="0" Margin="2" />
+                <TextBox x:Name="ChildFilterInput" Grid.Column="0" Margin="2">
+                    <TextBox.InputBindings>
+                        <KeyBinding Command="{Binding FilterChildrenCommand}" CommandParameter="{Binding ElementName=ChildFilterInput, Path=Text}" Key="Return" />
+                    </TextBox.InputBindings>
+                </TextBox>
                 <Button Grid.Column="1" Content="Filter" Width="100" Margin="2" Command="{Binding FilterChildrenCommand}" CommandParameter="{Binding ElementName=ChildFilterInput, Path=Text}"/>
+                <Button Grid.Column="2" Content="Clear" Width="40" Margin="2" Command="{Binding ClearChildrenFilterCommand}"/>
             </Grid>
 
         </Grid>

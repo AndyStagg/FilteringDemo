@@ -3,6 +3,7 @@ using FilteringDemo.MVVM;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace FilteringDemo.ViewModels
@@ -10,7 +11,13 @@ namespace FilteringDemo.ViewModels
     public class MainWindowViewModel : ViewModelBase
     {
         public ObservableCollection<ParentItem> ParentItems { get; set; }
-        public ParentItem SelectedParentItem { get; set; }
+
+        private ParentItem _selectedParentItem;
+        public ParentItem SelectedParentItem
+        {
+            get { return _selectedParentItem; }
+            set { SetProperty(ref _selectedParentItem, value); }
+        }
 
         public MainWindowViewModel()
         {
@@ -22,16 +29,25 @@ namespace FilteringDemo.ViewModels
         private ICommand _filterChildrenCommand;
         public ICommand FilterChildrenCommand => _filterChildrenCommand ?? (_filterChildrenCommand = new RelayCommand(param => FilterChildren((string)param), param => CanFilterChildren((string)param)));
 
-        private bool CanFilterChildren(string filter)
-        {
-            //TODO: Check for selected item in real life.
-            return filter.Length > 0;
-        }
+        private ICommand _clearChildrenFilterCommand;
+        public ICommand ClearChildrenFilterCommand => _clearChildrenFilterCommand ?? (_clearChildrenFilterCommand = new RelayCommand(p => FilterChildren(null), p => CanClearFilterChildren()));
+
+        private bool CanFilterChildren(string filter) => SelectedParentItem != null && filter.Length > 0;
+        private bool CanClearFilterChildren() => SelectedParentItem != null;
 
         private void FilterChildren(string filter)
         {
-            //TODO: Filter?
+            if (filter == null)
+            {
+                CollectionViewSource.GetDefaultView(SelectedParentItem.ChildItems).Filter = null;
+            }
+            else
+            {
+                CollectionViewSource.GetDefaultView(SelectedParentItem.ChildItems).Filter = item => (item as string).Contains(filter);
+            }
         }
+
+
 
         private void LoadDummyParentItems()
         {
